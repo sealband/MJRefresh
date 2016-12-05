@@ -44,6 +44,7 @@ static const char MJRefreshHeaderKey = '\0';
         [self didChangeValueForKey:@"mj_header"]; // KVO
     }
 }
+//这是利用了UIScrollView+MJRefresh里的一个category，为UIScrollView增加了属性header和footer。这里用到了关联对象的技巧（AssociatedObject），因为category通常情况下是不能直接添加实例变量的,通过上面的代码，把header添加到了UIScrollView的subviews里，并保留了一个引用。但是这个header的frame还没有确定，也没有任何行为
 
 - (MJRefreshHeader *)mj_header
 {
@@ -72,26 +73,6 @@ static const char MJRefreshFooterKey = '\0';
     return objc_getAssociatedObject(self, &MJRefreshFooterKey);
 }
 
-#pragma mark - 过期
-- (void)setFooter:(MJRefreshFooter *)footer
-{
-    self.mj_footer = footer;
-}
-
-- (MJRefreshFooter *)footer
-{
-    return self.mj_footer;
-}
-
-- (void)setHeader:(MJRefreshHeader *)header
-{
-    self.mj_header = header;
-}
-
-- (MJRefreshHeader *)header
-{
-    return self.mj_header;
-}
 
 #pragma mark - other
 - (NSInteger)mj_totalDataCount

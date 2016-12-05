@@ -21,6 +21,8 @@
     if (self = [super initWithFrame:frame]) {
         // 准备工作
         [self prepare];
+        //这里的关键是prepare方法，这个方法是第一个扩展点,具体的header（包括库提供的原生header，和用户自定义的header）有哪些属性，样式是怎么样，都是在这个方法里实现的。每个子类的prepare方法，都会调用父类的prepare方法。所以在扩展的时候，公共的属性写在父类的prepare方法里，特有的属性写在子类的prepare方法里。比如，我们看一下MJRefreshStateHeader的：
+        
         
         // 默认是普通状态
         self.state = MJRefreshStateIdle;
@@ -38,12 +40,14 @@
 - (void)layoutSubviews
 {
     [self placeSubviews];
+    //这里的placeSubviews就是header应该怎么摆，是第三个扩展点，把header的origin.y设置成负值，就是在MJRefreshHeader的这个方法里实现的：
     
     [super layoutSubviews];
 }
 
 - (void)placeSubviews{}
 
+//header的生命周期方法 willMoveToSuperview
 - (void)willMoveToSuperview:(UIView *)newSuperview
 {
     [super willMoveToSuperview:newSuperview];
@@ -62,7 +66,8 @@
         
         // 记录UIScrollView
         _scrollView = (UIScrollView *)newSuperview;
-        // 设置永远支持垂直弹簧效果
+        // 设置永远支持垂直弹簧效果,这样才能确保UIScrollView可以下拉，否则需要处理contentSize才能拉得动，就麻烦了很多,此外这里令header也持有UIScrollView的引用，后续可以从上面取到各种属性
+
         _scrollView.alwaysBounceVertical = YES;
         // 记录UIScrollView最开始的contentInset
         _scrollViewOriginalInset = _scrollView.contentInset;
@@ -118,6 +123,7 @@
         [self scrollViewPanStateDidChange:change];
     }
 }
+//这里侦听了3个key的变化，UIScrollView的contentOffset和contentSize，以及滑动手势的状态。然后在每个value发生变化的时候，调用几个didChange方法。这些didChange方法都是hook，是第二个扩展点，实际上都是由子类来实现的
 
 - (void)scrollViewContentOffsetDidChange:(NSDictionary *)change{}
 - (void)scrollViewContentSizeDidChange:(NSDictionary *)change{}
