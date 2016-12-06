@@ -41,6 +41,11 @@ static const char MJRefreshHeaderKey = '\0';
         [self willChangeValueForKey:@"mj_header"]; // KVO
         objc_setAssociatedObject(self, &MJRefreshHeaderKey,
                                  mj_header, OBJC_ASSOCIATION_ASSIGN);
+//        1.id object :被关联的对象
+//        2.const void *key ：char 类型的key
+//        3.id value :要被赋值的值
+//        4.objc_AssociationPolicy policy :runtime内存管理有一下集几种
+        
         [self didChangeValueForKey:@"mj_header"]; // KVO
     }
 }

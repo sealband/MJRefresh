@@ -40,7 +40,6 @@
 - (void)layoutSubviews
 {
     [self placeSubviews];
-    //这里的placeSubviews就是header应该怎么摆，是第三个扩展点，把header的origin.y设置成负值，就是在MJRefreshHeader的这个方法里实现的：
     
     [super layoutSubviews];
 }

@@ -102,6 +102,18 @@
 {
     MJRefreshCheckState
     
+    
+    /**
+     状态切换方式：
+     Idle→Pulling，基类不做处理，子类自定义实现
+     从Pulling→Refreshing，设定ContentInset，使RefreshView能够悬停
+     Refreshing→Pulling，不存在，因为在EndRefreshing方法中，直接切换状态为Idle
+     从Refreshing→Idle，则恢复ContentInset，使TableView回弹到正确的位置，隐藏RefreshView
+     
+     从上得出新状态中无需判断pulling状态，只需判断idle状态和refreshing状态，即
+     Refreshing→Idle
+     Pulling→Refreshing
+     **/
     // 根据状态做事情
     if (state == MJRefreshStateIdle) {
         if (oldState != MJRefreshStateRefreshing) return;

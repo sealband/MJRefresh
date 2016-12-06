@@ -46,6 +46,11 @@ typedef void (^MJRefreshComponentEndRefreshingCompletionBlock)();
 #pragma mark - 刷新回调
 /** 正在刷新的回调 */
 @property (copy, nonatomic) MJRefreshComponentRefreshingBlock refreshingBlock;
+/** 开始刷新后的回调(进入刷新状态后的回调) */
+@property (copy, nonatomic) MJRefreshComponentbeginRefreshingCompletionBlock beginRefreshingCompletionBlock;
+/** 结束刷新的回调 */
+@property (copy, nonatomic) MJRefreshComponentEndRefreshingCompletionBlock endRefreshingCompletionBlock;
+
 /** 设置回调对象和回调方法 */
 - (void)setRefreshingTarget:(id)target refreshingAction:(SEL)action;
 
@@ -60,13 +65,11 @@ typedef void (^MJRefreshComponentEndRefreshingCompletionBlock)();
 /** 进入刷新状态 */
 - (void)beginRefreshing;
 - (void)beginRefreshingWithCompletionBlock:(void (^)())completionBlock;
-/** 开始刷新后的回调(进入刷新状态后的回调) */
-@property (copy, nonatomic) MJRefreshComponentbeginRefreshingCompletionBlock beginRefreshingCompletionBlock;
-/** 结束刷新的回调 */
-@property (copy, nonatomic) MJRefreshComponentEndRefreshingCompletionBlock endRefreshingCompletionBlock;
+
 /** 结束刷新状态 */
 - (void)endRefreshing;
 - (void)endRefreshingWithCompletionBlock:(void (^)())completionBlock;
+
 /** 是否正在刷新 */
 - (BOOL)isRefreshing;
 /** 刷新状态 一般交给子类内部实现 */
